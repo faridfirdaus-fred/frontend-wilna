@@ -1,70 +1,53 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// Interface untuk Product
 export interface Product {
   productId: string;
   name: string;
-  price: number;
-  rating?: number;
-  stockQuantity: number;
+  stock: number;
+  image: string;
 }
 
+// Interface untuk Inventory (Inventory)
+export interface Inventory {
+  id: string;
+  name: string;
+  stock: number;
+  unit: string;
+}
+
+// Interface untuk data baru Inventory (Inventory)
+export interface NewInventory {
+  name: string;
+  stock: number;
+  unit: string;
+}
+
+// Interface untuk data baru Product
 export interface NewProduct {
   name: string;
-  price: number;
-  rating?: number;
-  stockQuantity: number;
+  stock: number;
 }
 
-export interface SalesSummary {
-  salesSummaryId: string;
-  totalValue: number;
-  changePercentage?: number;
-  date: string;
-}
-
-export interface PurchaseSummary {
-  purchaseSummaryId: string;
-  totalPurchased: number;
-  changePercentage?: number;
-  date: string;
-}
-
-export interface ExpenseSummary {
-  expenseSummarId: string;
-  totalExpenses: number;
-  date: string;
-}
-
-export interface ExpenseByCategorySummary {
-  expenseByCategorySummaryId: string;
-  category: string;
-  amount: string;
-  date: string;
-}
-
+// Interface untuk Dashboard Metrics
 export interface DashboardMetrics {
   popularProducts: Product[];
-  salesSummary: SalesSummary[];
-  purchaseSummary: PurchaseSummary[];
-  expenseSummary: ExpenseSummary[];
-  expenseByCategorySummary: ExpenseByCategorySummary[];
 }
 
+// Interface untuk User
 export interface User {
   userId: string;
   name: string;
-  email: string;
+  password: string;
 }
 
+// API Slice
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["DashboardMetrics", "Products", "Users", "Expenses"],
+  tagTypes: ["Products", "DashboardMetrics", "Users", "Inventory"],
   endpoints: (build) => ({
-    getDashboardMetrics: build.query<DashboardMetrics, void>({
-      query: () => "/dashboard",
-      providesTags: ["DashboardMetrics"],
-    }),
+    // Endpoint terkait produk
     getProducts: build.query<Product[], string | void>({
       query: (search) => ({
         url: "/products",
@@ -80,21 +63,81 @@ export const api = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+    updateProduct: build.mutation<
+      Product,
+      { id: string; updatedProduct: NewProduct }
+    >({
+      query: ({ id, updatedProduct }) => ({
+        url: `/products/${id}`,
+        method: "PUT",
+        body: updatedProduct,
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    deleteProduct: build.mutation<void, string>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    }),
+
+    // Endpoint untuk dashboard metrics
+    getDashboardMetrics: build.query<DashboardMetrics, void>({
+      query: () => "/dashboard",
+      providesTags: ["DashboardMetrics"],
+    }),
+
+    // Endpoint untuk pengguna
     getUsers: build.query<User[], void>({
       query: () => "/users",
       providesTags: ["Users"],
     }),
-    getExpensesByCategory: build.query<ExpenseByCategorySummary[], void>({
-      query: () => "/expenses",
-      providesTags: ["Expenses"],
+
+    // Endpoint terkait Inventory (Inventory)
+    getInventory: build.query<Inventory[], void>({
+      query: () => "/inventory",
+      providesTags: ["Inventory"],
+    }),
+    createInventory: build.mutation<Inventory, NewInventory>({
+      query: (newInventory) => ({
+        url: "/inventory",
+        method: "POST",
+        body: newInventory,
+      }),
+      invalidatesTags: ["Inventory"],
+    }),
+    updateInventory: build.mutation<
+      Inventory,
+      { id: string; updatedInventory: NewInventory }
+    >({
+      query: ({ id, updatedInventory }) => ({
+        url: `/inventory/${id}`,
+        method: "PUT",
+        body: updatedInventory,
+      }),
+      invalidatesTags: ["Inventory"],
+    }),
+    deleteInventory: build.mutation<void, string>({
+      query: (id) => ({
+        url: `/inventory/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Inventory"],
     }),
   }),
 });
 
+// Ekspor hooks untuk digunakan di komponen
 export const {
-  useGetDashboardMetricsQuery,
   useGetProductsQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+  useGetDashboardMetricsQuery,
   useGetUsersQuery,
-  useGetExpensesByCategoryQuery,
+  useGetInventoryQuery,
+  useCreateInventoryMutation,
+  useUpdateInventoryMutation,
+  useDeleteInventoryMutation,
 } = api;
