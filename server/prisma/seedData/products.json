@@ -1,7 +1,31 @@
 [
   {
     "productId": "1",
+    "kodeProduk": "Dz10",
+    "name": "Dodol Zebra",
+    "stock": 100
+  },
+  {
+    "productId": "1",
     "kodeProduk": "Dz100",
+    "name": "Dodol Zebra",
+    "stock": 100
+  },
+  {
+    "productId": "1",
+    "kodeProduk": "Dz200",
+    "name": "Dodol Zebra",
+    "stock": 100
+  },
+  {
+    "productId": "1",
+    "kodeProduk": "D100",
+    "name": "Dodol Zebra",
+    "stock": 100
+  },
+  {
+    "productId": "1",
+    "kodeProduk": "D1q100",
     "name": "Dodol Zebra",
     "stock": 100
   }

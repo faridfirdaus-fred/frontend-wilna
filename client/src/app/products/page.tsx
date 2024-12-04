@@ -149,7 +149,18 @@ const Products = () => {
       <CreateProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onCreate={createProduct}
+        onCreate={async (data: Product) => {
+          try {
+            await createProduct(data).unwrap();
+            setPopupMessage("Product created successfully.");
+            setPopupType("success");
+          } catch {
+            setPopupMessage("Failed to create product.");
+            setPopupType("error");
+          } finally {
+            setIsModalOpen(false);
+          }
+        }}
         onUpdate={handleUpdate}
         initialData={selectedProduct || undefined}
       />

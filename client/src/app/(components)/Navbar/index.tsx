@@ -32,7 +32,7 @@ const Navbar = () => {
           <Menu className="w-4 h-4" />
         </button>
 
-        <div className="relative">
+        {/* <div className="relative">
           <input
             type="search"
             placeholder="Start type to search groups & products"
@@ -55,7 +55,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* RIGHT SIDE */}
