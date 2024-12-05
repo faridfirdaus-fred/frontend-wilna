@@ -1,4 +1,3 @@
-// client/src/app/login.tsx
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -51,9 +50,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
           {isRegistering ? "Register" : "Login"}
         </h2>
         <input
@@ -61,24 +60,24 @@ const LoginPage = () => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={isRegistering ? handleRegister : handleLogin}
-          className="w-full bg-blue-500 text-white p-2 rounded mb-4"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg mb-4 hover:bg-blue-700 transition duration-300"
         >
           {isRegistering ? "Register" : "Login"}
         </button>
         <button
           onClick={() => setIsRegistering(!isRegistering)}
-          className="w-full text-blue-500 p-2 rounded"
+          className="w-full text-blue-600 p-3 rounded-lg hover:text-blue-700 transition duration-300"
         >
           {isRegistering
             ? "Already have an account? Login"
